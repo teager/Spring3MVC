@@ -1,0 +1,20 @@
+package com.gpower.common.type;
+
+import org.codehaus.jackson.annotate.JsonValue;
+
+public enum BooleanType {
+	FALSE(0),
+
+	TRUE(1);
+
+	private final Integer value;
+
+	private BooleanType(Integer value) {
+		this.value = value;
+	}
+
+	@JsonValue
+	public Integer value() {
+		return value;
+	}
+}

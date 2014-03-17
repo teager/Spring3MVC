@@ -1,0 +1,14 @@
+CREATE TABLE `anonymity` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `clientDeviceId` VARCHAR(100) DEFAULT NULL,  
+  `clientDeviceName` VARCHAR(100) DEFAULT NULL,
+  `clientDeviceToken` VARCHAR(100) DEFAULT NULL,
+  `clientVersion` VARCHAR(20) DEFAULT NULL,
+  `clientOS` VARCHAR(20) DEFAULT NULL,
+  `loginIp` VARCHAR(20) DEFAULT NULL, 
+  `createTime` DATETIME DEFAULT NULL,
+  `updateTime` DATETIME DEFAULT NULL,  
+  `uninstallTime` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `clientDeviceId` (`clientDeviceId`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8

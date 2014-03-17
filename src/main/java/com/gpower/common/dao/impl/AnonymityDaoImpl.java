@@ -1,0 +1,144 @@
+package com.gpower.common.dao.impl;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import com.gpower.common.dao.AnonymityDao;
+import com.gpower.common.dao.page.Page;
+import com.gpower.common.dao.page.PageFilter;
+import com.gpower.common.dao.page.PageOrder;
+import com.gpower.common.entity.Anonymity;
+
+public class AnonymityDaoImpl implements AnonymityDao {
+
+	private JdbcTemplate jdbcTemplate;
+
+	protected class AnonymityMapper implements RowMapper<Anonymity> {
+
+		public Anonymity mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Anonymity anonymity = new Anonymity();
+			anonymity.setId(rs.getLong("id"));
+			anonymity.setClientDeviceId(rs.getString("clientDeviceId"));
+			anonymity.setClientDeviceName(rs.getString("clientDeviceName"));
+			anonymity.setClientDeviceToken(rs.getString("clientDeviceToken"));
+			anonymity.setLoginIp(rs.getString("loginIp"));
+			anonymity.setClientOS(rs.getString("clientOS"));
+			anonymity.setClientLang(rs.getString("clientLang"));
+			anonymity.setProductID(rs.getString("productID"));
+			anonymity.setProductVersion(rs.getString("productVersion"));
+			Timestamp timeStamp = rs.getTimestamp("createTime");
+			if (timeStamp != null) {
+				Calendar createTime = Calendar.getInstance();
+				createTime.setTimeInMillis(timeStamp.getTime());
+				anonymity.setCreateTime(createTime);
+			}
+			timeStamp = rs.getTimestamp("updateTime");
+			if (timeStamp != null) {
+				Calendar updateTime = Calendar.getInstance();
+				updateTime.setTimeInMillis(timeStamp.getTime());
+				anonymity.setUpdateTime(updateTime);
+			}
+			timeStamp = rs.getTimestamp("uninstallTime");
+			if (timeStamp != null) {
+				Calendar uninstallTime = Calendar.getInstance();
+				uninstallTime.setTimeInMillis(timeStamp.getTime());
+				anonymity.setUninstallTime(uninstallTime);
+			}
+			return anonymity;
+		}
+	}
+
+	public Anonymity save(Anonymity anonymity) {
+
+		String sql = "INSERT INTO anonymity "
+				+ "(clientDeviceId, clientDeviceName, clientDeviceToken, loginIp, clientOS, clientLang, productID, productVersion, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		jdbcTemplate.update(
+				sql,
+				new Object[] { anonymity.getClientDeviceId(), anonymity.getClientDeviceName(),
+						anonymity.getClientDeviceToken(), anonymity.getLoginIp(), anonymity.getClientOS(),
+						anonymity.getClientLang(), anonymity.getProductID(), anonymity.getProductVersion(),
+						Calendar.getInstance() });
+		return anonymity;
+	}
+
+	public Anonymity getByDeviceId(String deviceId) {
+		String sql = "SELECT * FROM anonymity WHERE clientDeviceId = ?";
+		List<Anonymity> result = jdbcTemplate.query(sql, new Object[] { deviceId }, new AnonymityMapper());
+		if (result.isEmpty()) {
+			return null;
+		} else if (result.size() == 1) { // list contains exactly 1 element
+			return result.get(0);
+		} else {
+			throw new RuntimeException("duplicate deviceId" + deviceId + "in DB");
+		}
+	}
+	
+	public Anonymity getById(String id) {
+		String sql = "SELECT * FROM anonymity WHERE id = ?";
+		List<Anonymity> result = jdbcTemplate.query(sql, new Object[] { id }, new AnonymityMapper());
+		if (result.isEmpty()) {
+			return null;
+		} else if (result.size() == 1) { // list contains exactly 1 element
+			return result.get(0);
+		} else {
+			throw new RuntimeException("duplicate deviceId" + id + "in DB");
+		}
+	}
+
+	public Page<Anonymity> getAnonymity(Page<Anonymity> page) {
+		PageOrder order = page.getPageOrder();
+		PageFilter filter = page.getPageFilter();
+		String querySql = "SELECT * FROM anonymity a WHERE true";
+		String countSql = "SELECT count(*) FROM anonymity a WHERE true";
+
+		if (filter.has("productID")) {
+			querySql += " and a.productID = " + filter.getString("productID");
+			countSql += " and a.productID = " + filter.getString("productID");
+		}
+
+		if ("id".equals(order.getName())) {
+			querySql += " order by a.id desc";
+		} else if ("updateTime".equals(order.getName())) {
+			querySql += " order by u.updateTime desc";
+		}
+
+		List<Anonymity> result = jdbcTemplate.query(querySql + " limit ?, ?", new Object[] { page.getStartPosition(),
+				page.getPageSize() }, new AnonymityMapper());
+
+		Long count = jdbcTemplate.queryForObject(countSql, Long.class);
+
+		if (!result.isEmpty()) {
+			page.setResult(result);
+		}
+		page.setTotalSize(count);
+		return page;
+	}
+
+	public Anonymity update(Anonymity anonymity) {
+		String sql = "UPDATE anonymity SET clientDeviceId = ?, clientDeviceName = ?, clientDeviceToken=?, loginIp=?, clientOS=?, clientLang=?, productID = ?, productVersion=?, createTime=?, updateTime =?, uninstallTime = ?";
+		jdbcTemplate.update(
+				sql,
+				new Object[] { anonymity.getClientDeviceId(), anonymity.getClientDeviceName(),
+						anonymity.getClientDeviceToken(), anonymity.getLoginIp(), anonymity.getClientOS(),
+						anonymity.getClientLang(), anonymity.getProductID(), anonymity.getProductVersion(),
+						anonymity.getCreateTime(), Calendar.getInstance(), anonymity.getUninstallTime() });
+
+		return anonymity;
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+}
