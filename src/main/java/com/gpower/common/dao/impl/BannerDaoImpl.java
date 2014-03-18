@@ -1,78 +1,71 @@
 package com.gpower.common.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
-import com.gpower.common.dao.PropertyDao;
-import com.gpower.common.entity.GpProperty;
+import com.gpower.common.dao.BannerDao;
+import com.gpower.common.dao.page.Page;
+import com.gpower.common.entity.Banner;
+import com.gpower.common.type.BannerType;
+import com.gpower.common.type.BooleanType;
 
-public class BannerDaoImpl implements PropertyDao {
+public class BannerDaoImpl implements BannerDao {
 
 	private JdbcTemplate jdbcTemplate;
 
+	private static final String INSERT_BANNER = "INSERT INTO banner(productId, appStoreId, imageUrl, bannerType, status) VALUES(?,?,?,?,?)";
+	private static final String UPDATE_BANNER = "UPDATE banner SET status=? WHERE id=?";
+
 	private static final Logger logger = LoggerFactory.getLogger(BannerDaoImpl.class);
 
-	private static final String LOAD_PROPERTIES = "SELECT name, propValue FROM gpProperty";
-	private static final String INSERT_PROPERTY = "INSERT INTO gpProperty(name, propValue) VALUES(?,?)";
-	private static final String UPDATE_PROPERTY = "UPDATE gpProperty SET propValue=? WHERE name=?";
-	private static final String DELETE_PROPERTY = "DELETE FROM gp Property WHERE name LIKE ?";
-
-	private Map<String, String> properties = new ConcurrentHashMap<String, String>();;
-
-	public GpProperty save(GpProperty gpProperty) {
-		jdbcTemplate.update(INSERT_PROPERTY, new Object[] { gpProperty.getName(), gpProperty.getPropValue() });
-		properties.put(gpProperty.getName(), gpProperty.getPropValue());
-		return gpProperty;
-	}
-
-	private Map<String, String> init() {
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(LOAD_PROPERTIES);
-		for (Map<String, Object> row : rows) {
-			String name = (String) row.get("name");
-			String propValue = (String) row.get("propValue");
-			properties.put(name, propValue);
+	protected class BannerMapper implements RowMapper<Banner> {
+		public Banner mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Banner banner = new Banner();
+			banner.setId(rs.getLong("id"));
+			banner.setProductId(rs.getString("productId"));
+			banner.setAppStoreId(rs.getString("appStoreId"));
+			banner.setImageUrl(rs.getString("imageUrl"));
+			banner.setBannerType(BannerType.valueOf(rs.getString("bannerType")));
+			banner.setStatus(BooleanType.valueOf(rs.getString("status")));
+			return banner;
 		}
-		return properties;
 	}
 
-	public GpProperty updateProperty(GpProperty gpProperty) {
-		jdbcTemplate.update(UPDATE_PROPERTY, new Object[] { gpProperty.getName(), gpProperty.getPropValue() });
-		properties.put(gpProperty.getName(), gpProperty.getPropValue());
-		return gpProperty;
+	public Banner save(Banner banner) {
+		logger.info("insert a new banner!");
+		jdbcTemplate.update(
+				INSERT_BANNER,
+				new Object[] { banner.getProductId(), banner.getAppStoreId(), banner.getImageUrl(),
+						banner.getImageUrl(), banner.getBannerType(), banner.getStatus() });
+		return banner;
 	}
 
-	public void removeProperty(GpProperty gpProperty) {
-		jdbcTemplate.update(DELETE_PROPERTY, new Object[] { gpProperty.getName() });
-		properties.remove(gpProperty.getName());
+	public Banner updateBanner(Banner banner) {
+		jdbcTemplate.update(UPDATE_BANNER, new Object[] { banner.getStatus(), banner.getId() });
+		return banner;
 	}
 
-	public String getProperty(String name) {
-		if (properties.isEmpty()) {
-			init();
-			logger.info("init properties...");
+	public List<Banner> getBanner(Page<Banner> page) {
+		String querySql = "SELECT * FROM banner b WHERE true";
+		if (page.getPageFilter().has("status")) {
+			querySql += " and b.status = " + page.getPageFilter().getString("status");
 		}
-		return properties.get(name);
-	}
 
-	public Map<String, String> getProperty() {
-		if (properties.isEmpty()) {
-			init();
-			logger.info("init properties...");
+		if ("id".equals(page.getPageOrder().getName())) {
+			querySql += " order by a.id desc";
+		} else if ("updateTime".equals(page.getPageOrder().getName())) {
+			querySql += " order by u.updateTime desc";
 		}
-		return properties;
-	}
 
-	public Map<String, String> getProperties() {
-		return properties;
-	}
-
-	public void setProperties(Map<String, String> properties) {
-		this.properties = properties;
+		List<Banner> result = jdbcTemplate.query(querySql + " limit ?, ?",
+				new Object[] { page.getStartPosition(), page.getPageSize() }, new BannerMapper());
+		return result;
 	}
 
 	public JdbcTemplate getJdbcTemplate() {

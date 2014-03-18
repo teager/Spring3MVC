@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.gpower.common.dao.PropertyDao;
-import com.gpower.common.entity.GpProperty;
+import com.gpower.common.entity.Property;
 
 public class PropertyDaoImpl implements PropertyDao {
 
@@ -24,7 +24,7 @@ public class PropertyDaoImpl implements PropertyDao {
 
 	private Map<String, String> properties = new ConcurrentHashMap<String, String>();;
 
-	public GpProperty save(GpProperty gpProperty) {
+	public Property save(Property gpProperty) {
 		jdbcTemplate.update(INSERT_PROPERTY, new Object[] { gpProperty.getName(), gpProperty.getPropValue() });
 		properties.put(gpProperty.getName(), gpProperty.getPropValue());
 		return gpProperty;
@@ -40,13 +40,13 @@ public class PropertyDaoImpl implements PropertyDao {
 		return properties;
 	}
 
-	public GpProperty updateProperty(GpProperty gpProperty) {
+	public Property updateProperty(Property gpProperty) {
 		jdbcTemplate.update(UPDATE_PROPERTY, new Object[] { gpProperty.getName(), gpProperty.getPropValue() });
 		properties.put(gpProperty.getName(), gpProperty.getPropValue());
 		return gpProperty;
 	}
 
-	public void removeProperty(GpProperty gpProperty) {
+	public void removeProperty(Property gpProperty) {
 		jdbcTemplate.update(DELETE_PROPERTY, new Object[] { gpProperty.getName() });
 		properties.remove(gpProperty.getName());
 	}

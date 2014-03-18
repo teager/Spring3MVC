@@ -3,6 +3,7 @@ package com.gpower.common.entity;
 import java.io.Serializable;
 
 import com.gpower.common.type.BannerType;
+import com.gpower.common.type.BooleanType;
 
 public class Banner implements Serializable {
 
@@ -17,6 +18,8 @@ public class Banner implements Serializable {
 	private String imageUrl;
 
 	private BannerType bannerType;
+	
+	private BooleanType status;
 
 	public Long getId() {
 		return id;
@@ -58,4 +61,11 @@ public class Banner implements Serializable {
 		this.bannerType = bannerType;
 	}
 
+	public BooleanType getStatus() {
+		return status;
+	}
+
+	public void setStatus(BooleanType status) {
+		this.status = status;
+	}
 }

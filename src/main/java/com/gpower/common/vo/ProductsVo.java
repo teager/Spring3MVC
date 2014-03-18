@@ -13,12 +13,6 @@ public class ProductsVo implements Serializable {
 
 	private Long count;
 
-	private Long fsProductId;
-
-	private Long fsAppStoreId;
-
-	private Long fsImageUrl;
-
 	private List<ProductVo> products;
 
 	public ProductsVo() {
@@ -45,30 +39,6 @@ public class ProductsVo implements Serializable {
 
 	public void setCount(Long count) {
 		this.count = count;
-	}
-
-	public Long getFsProductId() {
-		return fsProductId;
-	}
-
-	public void setFsProductId(Long fsProductId) {
-		this.fsProductId = fsProductId;
-	}
-
-	public Long getFsAppStoreId() {
-		return fsAppStoreId;
-	}
-
-	public void setFsAppStoreId(Long fsAppStoreId) {
-		this.fsAppStoreId = fsAppStoreId;
-	}
-
-	public Long getFsImageUrl() {
-		return fsImageUrl;
-	}
-
-	public void setFsImageUrl(Long fsImageUrl) {
-		this.fsImageUrl = fsImageUrl;
 	}
 
 	public List<ProductVo> getproducts() {

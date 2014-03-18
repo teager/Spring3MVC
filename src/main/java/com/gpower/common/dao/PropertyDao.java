@@ -5,15 +5,15 @@ package com.gpower.common.dao;
 
 import java.util.Map;
 
-import com.gpower.common.entity.GpProperty;
+import com.gpower.common.entity.Property;
 
 public interface PropertyDao {
 
-	public GpProperty save(GpProperty gpProperty);
+	public Property save(Property gpProperty);
 	
-	public GpProperty updateProperty(GpProperty gpProperty);
+	public Property updateProperty(Property gpProperty);
 	
-	public void removeProperty(GpProperty gpProperty);
+	public void removeProperty(Property gpProperty);
 	
 	public String getProperty(String name);
 	

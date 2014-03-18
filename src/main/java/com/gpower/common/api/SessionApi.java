@@ -20,7 +20,6 @@ import com.gpower.common.dao.PropertyDao;
 import com.gpower.common.dao.page.Page;
 import com.gpower.common.dto.AnonymityDto;
 import com.gpower.common.entity.Anonymity;
-import com.gpower.common.entity.Product;
 import com.gpower.common.vo.AnonymitiesVo;
 import com.gpower.common.vo.SessionVo;
 

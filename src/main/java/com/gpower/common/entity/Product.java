@@ -23,6 +23,8 @@ public class Product implements Serializable {
 	private Double productPrice;
 
 	private String description;
+	
+	private BooleanType status;
 
 	public Long getId() {
 		return id;
@@ -88,4 +90,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
+	public BooleanType getStatus() {
+		return status;
+	}
+
+	public void setStatus(BooleanType status) {
+		this.status = status;
+	}
 }

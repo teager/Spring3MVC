@@ -3,19 +3,16 @@
  */
 package com.gpower.common.dao;
 
-import java.util.Map;
+import java.util.List;
 
-import com.gpower.common.entity.GpProperty;
+import com.gpower.common.dao.page.Page;
+import com.gpower.common.entity.Banner;
 
 public interface BannerDao {
 
-	public GpProperty save(GpProperty gpProperty);
+	public Banner save(Banner banner);
 	
-	public GpProperty updateProperty(GpProperty gpProperty);
+	public Banner updateBanner(Banner banner);
 	
-	public void removeProperty(GpProperty gpProperty);
-	
-	public String getProperty(String name);
-	
-	public Map<String, String> getProperty();
+	public List<Banner> getBanner(Page<Banner> page);
 }

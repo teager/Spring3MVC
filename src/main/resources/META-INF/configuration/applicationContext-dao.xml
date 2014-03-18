@@ -21,7 +21,15 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
-	<bean id="gpPropertyDao" class="com.gpower.common.dao.impl.GpPropertyDaoImpl">
+	<bean id="propertyDao" class="com.gpower.common.dao.impl.PropertyDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="bannerDao" class="com.gpower.common.dao.impl.BannerDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+
+	<bean id="productDao" class="com.gpower.common.dao.impl.ProductDaoImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
 
