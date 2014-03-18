@@ -1,0 +1,45 @@
+CREATE TABLE `anonymity` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `clientDeviceId` VARCHAR(100) DEFAULT NULL,  
+  `clientDeviceName` VARCHAR(100) DEFAULT NULL,
+  `clientDeviceToken` VARCHAR(100) DEFAULT NULL,
+  `clientVersion` VARCHAR(20) DEFAULT NULL,
+  `clientOS` VARCHAR(20) DEFAULT NULL,
+  `loginIp` VARCHAR(20) DEFAULT NULL, 
+  `createTime` DATETIME DEFAULT NULL,
+  `updateTime` DATETIME DEFAULT NULL,  
+  `uninstallTime` DATETIME DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   KEY `clientDeviceId` (`clientDeviceId`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+
+CREATE TABLE `gpproperty` (
+  `name` varchar(100) NOT NULL,
+  `propValue` text NOT NULL,
+   PRIMARY KEY (`name`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8
+
+CREATE TABLE `banner` (
+ `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+ `productId` VARCHAR(50) DEFAULT NULL,  
+ `appStoreId` VARCHAR(50) DEFAULT NULL,  
+ `imageUrl` VARCHAR(100) DEFAULT NULL,  
+ `bannerType` int(5) DEFAULT NULL,
+ `status` int(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
+CREATE TABLE `product` (
+ `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+ `productId` VARCHAR(50) DEFAULT NULL,  
+ `productName` VARCHAR(50) DEFAULT NULL,
+ `appIsnew` int(5) DEFAULT NULL,
+ `appStoreId` VARCHAR(50) DEFAULT NULL,  
+ `schema` VARCHAR(100) DEFAULT NULL,  
+ `productPrice` double DEFAULT NULL,
+ `description` VARCHAR(100) DEFAULT NULL,  
+ `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+
