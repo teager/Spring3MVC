@@ -52,6 +52,7 @@ public class SystemApi {
 	@ResponseBody
 	@RequestMapping(value = "/banners", method = RequestMethod.GET)
 	public BannersVo getBanners(@RequestParam String session) {
+		String[] ticket = session.split(";");
 		Anonymity anonymity = anonymityDao.getById("");
 		List<Banner> banners = bannerDao.getBanner(new Page<Banner>());
 		return new BannersVo(banners, anonymity);
