@@ -29,12 +29,12 @@ public class ProductDaoImpl implements ProductDao {
 			product.setId(rs.getLong("id"));
 			product.setProductId(rs.getString("productId"));
 			product.setProductName(rs.getString("productName"));
-			product.setAppIsnew(BooleanType.valueOf(rs.getString("appIsnew")));
+			product.setAppIsnew(BooleanType.fromInt(rs.getInt("appIsnew")));
 			product.setAppStoreId(rs.getString("appStoreId"));
 			product.setSchema(rs.getString("schema"));
 			product.setDescription(rs.getString("description"));
-			product.setProductPrice(rs.getDouble("productPrice"));
-			product.setStatus(BooleanType.valueOf(rs.getString("status")));
+			product.setProductPrice(rs.getString("productPrice"));
+			product.setStatus(BooleanType.fromInt(rs.getInt("status")));
 			return product;
 		}
 	}

@@ -8,7 +8,7 @@ public interface AnonymityDao {
 	
 	public Anonymity update(Anonymity anonymity);
 	
-	public Anonymity getById(String id); 
+	public Anonymity getById(Long id); 
 	
 	public Anonymity getByDeviceId(String deviceId);
 

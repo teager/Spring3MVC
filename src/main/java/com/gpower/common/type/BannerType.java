@@ -17,4 +17,13 @@ public enum BannerType {
 	public Integer value() {
 		return value;
 	}
+	
+	public static BannerType fromInt(Integer value) {
+		for (BannerType type : BannerType.values()) {
+			if (type.value == value) {
+				return type;
+			}
+		}
+		return null;
+	}
 }

@@ -80,7 +80,7 @@ public class AnonymityDaoImpl implements AnonymityDao {
 		}
 	}
 	
-	public Anonymity getById(String id) {
+	public Anonymity getById(Long id) {
 		String sql = "SELECT * FROM anonymity WHERE id = ?";
 		List<Anonymity> result = jdbcTemplate.query(sql, new Object[] { id }, new AnonymityMapper());
 		if (result.isEmpty()) {

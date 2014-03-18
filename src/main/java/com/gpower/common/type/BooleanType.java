@@ -17,4 +17,13 @@ public enum BooleanType {
 	public Integer value() {
 		return value;
 	}
+
+	public static BooleanType fromInt(Integer value) {
+		for (BooleanType type : BooleanType.values()) {
+			if (type.value == value) {
+				return type;
+			}
+		}
+		return null;
+	}
 }

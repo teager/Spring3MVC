@@ -31,8 +31,8 @@ public class BannerDaoImpl implements BannerDao {
 			banner.setProductId(rs.getString("productId"));
 			banner.setAppStoreId(rs.getString("appStoreId"));
 			banner.setImageUrl(rs.getString("imageUrl"));
-			banner.setBannerType(BannerType.valueOf(rs.getString("bannerType")));
-			banner.setStatus(BooleanType.valueOf(rs.getString("status")));
+			banner.setBannerType(BannerType.fromInt(rs.getInt("bannerType")));
+			banner.setStatus(BooleanType.fromInt(rs.getInt("status")));
 			return banner;
 		}
 	}

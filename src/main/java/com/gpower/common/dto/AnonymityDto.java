@@ -31,9 +31,9 @@ public class AnonymityDto extends TransferObject<Anonymity> {
 	private Calendar productlListUpdateTime;
 
 	private Calendar bannerUpdateTime;
-	
-	public AnonymityDto(){
-		
+
+	public AnonymityDto() {
+
 	}
 
 	public String getClientDeviceId() {
@@ -118,13 +118,28 @@ public class AnonymityDto extends TransferObject<Anonymity> {
 
 	@Override
 	public Anonymity toObject(Anonymity anonymity) {
-		anonymity.setClientDeviceId(clientDeviceId);
-		anonymity.setClientDeviceName(clientDeviceName);
-		anonymity.setClientDeviceToken(clientDeviceToken);
-		anonymity.setClientOS(clientOS);
-		anonymity.setClientLang(clientLang);
-		anonymity.setProductVersion(productID);
-		anonymity.setProductVersion(productVersion);
+		if (clientDeviceId != null) {
+			anonymity.setClientDeviceId(clientDeviceId);
+		}
+		if (clientDeviceName != null) {
+			anonymity.setClientDeviceName(clientDeviceName);
+		}
+		if (clientDeviceToken != null) {
+			anonymity.setClientDeviceToken(clientDeviceToken);
+		}
+		if (clientOS != null) {
+			anonymity.setClientOS(clientOS);
+		}
+		if (clientLang != null) {
+			anonymity.setClientLang(clientLang);
+		}
+		if (productID != null) {
+			anonymity.setProductVersion(productID);
+		}
+		if (productVersion != null) {
+			anonymity.setProductVersion(productVersion);
+		}
+
 		return anonymity;
 	}
 

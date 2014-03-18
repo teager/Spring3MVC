@@ -20,7 +20,7 @@ public class ProductVo implements Serializable {
 
 	private String schema;
 
-	private Double productPrice;
+	private String productPrice;
 
 	private String description;
 
@@ -37,8 +37,6 @@ public class ProductVo implements Serializable {
 		this.schema = product.getSchema();
 		this.productPrice = product.getProductPrice();
 		this.description = product.getDescription();
-		;
-
 	}
 
 	public String getProductId() {
@@ -81,11 +79,11 @@ public class ProductVo implements Serializable {
 		this.schema = schema;
 	}
 
-	public Double getProductPrice() {
+	public String getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(Double productPrice) {
+	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
 	}
 

@@ -5,12 +5,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gpower.common.api.exceptions.NotFoundException;
 import com.gpower.common.dao.AnonymityDao;
 import com.gpower.common.dao.BannerDao;
 import com.gpower.common.dao.ProductDao;
@@ -19,6 +21,7 @@ import com.gpower.common.dao.page.Page;
 import com.gpower.common.entity.Anonymity;
 import com.gpower.common.entity.Banner;
 import com.gpower.common.entity.Product;
+import com.gpower.common.utils.SessionUtils;
 import com.gpower.common.vo.BannersVo;
 import com.gpower.common.vo.ProductsVo;
 
@@ -40,10 +43,17 @@ public class SystemApi {
 	@Autowired
 	private ProductDao productDao;
 
-	@ResponseBody
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public ProductsVo getProductList(@RequestParam String session) {
-		Anonymity anonymity = anonymityDao.getById("");
+	public @ResponseBody
+	ProductsVo getProductList(@RequestParam String session) {
+		Long anonymityId = SessionUtils.getAnonymityId(session);
+		if (anonymityId == null) {
+			throw new NotFoundException("anonymityId of session is null", "null");
+		}
+		Anonymity anonymity = anonymityDao.getById(anonymityId);
+		if (anonymity == null) {
+			throw new NotFoundException("anonymity is null", "null");
+		}
 		List<Product> products = productDao.getProduct(new Page<Product>());
 		return new ProductsVo(products, anonymity);
 
@@ -52,8 +62,16 @@ public class SystemApi {
 	@ResponseBody
 	@RequestMapping(value = "/banners", method = RequestMethod.GET)
 	public BannersVo getBanners(@RequestParam String session) {
-		String[] ticket = session.split(";");
-		Anonymity anonymity = anonymityDao.getById("");
+		Long anonymityId = SessionUtils.getAnonymityId(session);
+		if (anonymityId == null) {
+			throw new NotFoundException("anonymityId of session is null", "null");
+		}
+		Anonymity anonymity = anonymityDao.getById(anonymityId);
+		if (anonymity == null) {
+			throw new NotFoundException("anonymity is null", "null");
+		}
+		Page<Banner> page = new Page<Banner>();
+		page.getPageFilter().add("status", "0");
 		List<Banner> banners = bannerDao.getBanner(new Page<Banner>());
 		return new BannersVo(banners, anonymity);
 	}

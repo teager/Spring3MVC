@@ -4,20 +4,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import com.gpower.common.entity.Anonymity;
 import com.gpower.common.entity.Banner;
+import com.gpower.common.type.BannerType;
 
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class BannersVo implements Serializable {
 
 	private static final long serialVersionUID = 1444741726787055989L;
 
 	private Long count;
 
-	private Long fsProductId;
+	private String fsProductId;
 
-	private Long fsAppStoreId;
+	private String fsAppStoreId;
 
-	private Long fsImageUrl;
+	private String fsImageUrl;
 
 	private List<BannerVo> banners;
 
@@ -26,10 +30,18 @@ public class BannersVo implements Serializable {
 	}
 
 	public BannersVo(List<Banner> banners, Anonymity anonymity) {
+		Long bannerCount = 0L;
 		for (Banner banner : banners) {
-			this.addBanner(new BannerVo(banner, anonymity));
+			if (BannerType.FULLSCREEN.equals(banner.getBannerType())) {
+				this.fsProductId = banner.getProductId();
+				this.fsAppStoreId = banner.getAppStoreId();
+				this.fsImageUrl = banner.getImageUrl();
+			} else {
+				this.addBanner(new BannerVo(banner, anonymity));
+				bannerCount++;
+			}
 		}
-		this.setCount(new Long(banners.size()));
+		this.setCount(bannerCount);
 	}
 
 	private void addBanner(BannerVo bannerVo) {
@@ -47,27 +59,27 @@ public class BannersVo implements Serializable {
 		this.count = count;
 	}
 
-	public Long getFsProductId() {
+	public String getFsProductId() {
 		return fsProductId;
 	}
 
-	public void setFsProductId(Long fsProductId) {
+	public void setFsProductId(String fsProductId) {
 		this.fsProductId = fsProductId;
 	}
 
-	public Long getFsAppStoreId() {
+	public String getFsAppStoreId() {
 		return fsAppStoreId;
 	}
 
-	public void setFsAppStoreId(Long fsAppStoreId) {
+	public void setFsAppStoreId(String fsAppStoreId) {
 		this.fsAppStoreId = fsAppStoreId;
 	}
 
-	public Long getFsImageUrl() {
+	public String getFsImageUrl() {
 		return fsImageUrl;
 	}
 
-	public void setFsImageUrl(Long fsImageUrl) {
+	public void setFsImageUrl(String fsImageUrl) {
 		this.fsImageUrl = fsImageUrl;
 	}
 
