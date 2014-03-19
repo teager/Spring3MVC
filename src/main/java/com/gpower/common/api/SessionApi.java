@@ -20,6 +20,8 @@ import com.gpower.common.dao.PropertyDao;
 import com.gpower.common.dao.page.Page;
 import com.gpower.common.dto.AnonymityDto;
 import com.gpower.common.entity.Anonymity;
+import com.gpower.common.type.FreeType;
+import com.gpower.common.utils.FreePeriodUtils;
 import com.gpower.common.vo.AnonymitiesVo;
 import com.gpower.common.vo.SessionVo;
 
@@ -64,16 +66,25 @@ public class SessionApi {
 		if (dto.getClientDeviceId() == null) {
 			throw new NotFoundException("deviceId is null", "null");
 		}
+
+		Map<String, String> properties = gpPropertyDao.getProperty();
 		Anonymity anonymity = anonymityDao.getByDeviceId(dto.getClientDeviceId());
 		if (anonymity != null) {
 			anonymity = dto.toObject(anonymity);
 			anonymityDao.update(anonymity);
 		} else {
 			anonymity = dto.toObject(new Anonymity());
+			String freePeriods = properties.get(anonymity.getProductID() + "freePeriods");
+			if (freePeriods == null) {
+				anonymity.setFreeType(FreeType.EVER);
+			} else if (FreePeriodUtils.isFreePeriod(freePeriods)) {
+				anonymity.setFreeType(FreeType.PERIOD_FREE);
+			} else {
+				anonymity.setFreeType(FreeType.PAYMENT);
+			}
 			anonymity = anonymityDao.save(anonymity);
 		}
 
-		Map<String, String> properties = gpPropertyDao.getProperty();
 		SessionVo session = new SessionVo(properties, anonymity, dto);
 		return session;
 

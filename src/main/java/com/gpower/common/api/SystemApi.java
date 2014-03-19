@@ -5,13 +5,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gpower.common.api.exceptions.NotAuthException;
 import com.gpower.common.api.exceptions.NotFoundException;
 import com.gpower.common.dao.AnonymityDao;
 import com.gpower.common.dao.BannerDao;
@@ -45,10 +45,10 @@ public class SystemApi {
 
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
 	public @ResponseBody
-	ProductsVo getProductList(@RequestParam String session) {
+	ProductsVo getProductList(@RequestParam(required = false) String session) {
 		Long anonymityId = SessionUtils.getAnonymityId(session);
 		if (anonymityId == null) {
-			throw new NotFoundException("anonymityId of session is null", "null");
+			throw new NotAuthException(session);
 		}
 		Anonymity anonymity = anonymityDao.getById(anonymityId);
 		if (anonymity == null) {
@@ -61,10 +61,10 @@ public class SystemApi {
 
 	@ResponseBody
 	@RequestMapping(value = "/banners", method = RequestMethod.GET)
-	public BannersVo getBanners(@RequestParam String session) {
+	public BannersVo getBanners(@RequestParam(required = false) String session) {
 		Long anonymityId = SessionUtils.getAnonymityId(session);
 		if (anonymityId == null) {
-			throw new NotFoundException("anonymityId of session is null", "null");
+			throw new NotAuthException(session);
 		}
 		Anonymity anonymity = anonymityDao.getById(anonymityId);
 		if (anonymity == null) {

@@ -17,10 +17,10 @@ public class PropertyDaoImpl implements PropertyDao {
 
 	private static final Logger logger = LoggerFactory.getLogger(PropertyDaoImpl.class);
 
-	private static final String LOAD_PROPERTIES = "SELECT name, propValue FROM gpProperty";
-	private static final String INSERT_PROPERTY = "INSERT INTO gpProperty(name, propValue) VALUES(?,?)";
-	private static final String UPDATE_PROPERTY = "UPDATE gpProperty SET propValue=? WHERE name=?";
-	private static final String DELETE_PROPERTY = "DELETE FROM gp Property WHERE name LIKE ?";
+	private static final String LOAD_PROPERTIES = "SELECT name, propValue FROM gp_property";
+	private static final String INSERT_PROPERTY = "INSERT INTO gp_property(name, propValue) VALUES(?,?)";
+	private static final String UPDATE_PROPERTY = "UPDATE gp_property SET propValue=? WHERE name=?";
+	private static final String DELETE_PROPERTY = "DELETE FROM gp_property WHERE name LIKE ?";
 
 	private Map<String, String> properties = new ConcurrentHashMap<String, String>();;
 

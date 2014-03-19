@@ -3,6 +3,8 @@ package com.gpower.common.entity;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import com.gpower.common.type.FreeType;
+
 public class Anonymity implements Serializable {
 
 	private static final long serialVersionUID = 5997398030652622065L;
@@ -24,6 +26,8 @@ public class Anonymity implements Serializable {
 	private String productID;
 	
 	private String productVersion;
+	
+	private FreeType freeType;
 
 	private Calendar createTime;
 
@@ -126,6 +130,14 @@ public class Anonymity implements Serializable {
 
 	public void setUninstallTime(Calendar uninstallTime) {
 		this.uninstallTime = uninstallTime;
+	}
+
+	public FreeType getFreeType() {
+		return freeType;
+	}
+
+	public void setFreeType(FreeType freeType) {
+		this.freeType = freeType;
 	}
 
 }

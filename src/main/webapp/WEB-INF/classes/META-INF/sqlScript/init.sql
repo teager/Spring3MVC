@@ -1,20 +1,27 @@
+/**
+Create Table
+**/
 CREATE TABLE `anonymity` (
-  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-  `clientDeviceId` VARCHAR(100) DEFAULT NULL,  
-  `clientDeviceName` VARCHAR(100) DEFAULT NULL,
-  `clientDeviceToken` VARCHAR(100) DEFAULT NULL,
-  `clientVersion` VARCHAR(20) DEFAULT NULL,
-  `clientOS` VARCHAR(20) DEFAULT NULL,
-  `loginIp` VARCHAR(20) DEFAULT NULL, 
-  `createTime` DATETIME DEFAULT NULL,
-  `updateTime` DATETIME DEFAULT NULL,  
-  `uninstallTime` DATETIME DEFAULT NULL,
-   PRIMARY KEY (`id`),
-   KEY `clientDeviceId` (`clientDeviceId`)
-) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `clientDeviceId` varchar(100) DEFAULT NULL,
+  `clientDeviceName` varchar(100) DEFAULT NULL,
+  `clientDeviceToken` varchar(100) DEFAULT NULL,
+  `clientVersion` varchar(20) DEFAULT NULL,
+  `clientOS` varchar(20) DEFAULT NULL,
+  `clientLang` varchar(20) DEFAULT NULL,
+  `productVersion` varchar(20) DEFAULT NULL,
+  `productID` varchar(20) DEFAULT NULL,
+  `loginIp` varchar(20) DEFAULT NULL,
+  `createTime` datetime DEFAULT NULL,
+  `updateTime` datetime DEFAULT NULL,
+  `uninstallTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `clientDeviceId` (`clientDeviceId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
 
 
-CREATE TABLE `gpproperty` (
+
+CREATE TABLE `gp_property` (
   `name` varchar(100) NOT NULL,
   `propValue` text NOT NULL,
    PRIMARY KEY (`name`)

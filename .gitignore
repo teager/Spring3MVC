@@ -22,3 +22,4 @@ target/SpringMVC/WEB-INF/classes/META-INF/configuration/applicationContext-dao.x
 target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 target/m2e-wtp/web-resources/META-INF/maven/com.mkyong.common/Spring3MVC/pom.properties
 src/main/webapp/WEB-INF/classes/logback.xml
+src/main/webapp/WEB-INF/classes/META-INF/sqlScript/init.sql

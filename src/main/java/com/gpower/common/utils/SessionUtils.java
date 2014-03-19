@@ -23,6 +23,9 @@ public class SessionUtils {
 	}
 
 	public static Long getAnonymityId(String session) {
+		if(session == null){
+			return null;
+		}
 		String token = new String(Base64.decodeBase64(session));
 		String[] tokens = token.split(";");
 		if (tokens == null || tokens.length < 1) {

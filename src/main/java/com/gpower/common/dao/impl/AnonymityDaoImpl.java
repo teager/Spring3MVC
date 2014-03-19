@@ -14,6 +14,7 @@ import com.gpower.common.dao.page.Page;
 import com.gpower.common.dao.page.PageFilter;
 import com.gpower.common.dao.page.PageOrder;
 import com.gpower.common.entity.Anonymity;
+import com.gpower.common.type.FreeType;
 
 public class AnonymityDaoImpl implements AnonymityDao {
 
@@ -32,6 +33,7 @@ public class AnonymityDaoImpl implements AnonymityDao {
 			anonymity.setClientLang(rs.getString("clientLang"));
 			anonymity.setProductID(rs.getString("productID"));
 			anonymity.setProductVersion(rs.getString("productVersion"));
+			anonymity.setFreeType(FreeType.fromInt(rs.getInt("freeType")));
 			Timestamp timeStamp = rs.getTimestamp("createTime");
 			if (timeStamp != null) {
 				Calendar createTime = Calendar.getInstance();
@@ -57,7 +59,7 @@ public class AnonymityDaoImpl implements AnonymityDao {
 	public Anonymity save(Anonymity anonymity) {
 
 		String sql = "INSERT INTO anonymity "
-				+ "(clientDeviceId, clientDeviceName, clientDeviceToken, loginIp, clientOS, clientLang, productID, productVersion, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "(clientDeviceId, clientDeviceName, clientDeviceToken, loginIp, clientOS, clientLang, productID, productVersion, freeType, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		jdbcTemplate.update(
 				sql,
@@ -79,7 +81,7 @@ public class AnonymityDaoImpl implements AnonymityDao {
 			throw new RuntimeException("duplicate deviceId" + deviceId + "in DB");
 		}
 	}
-	
+
 	public Anonymity getById(Long id) {
 		String sql = "SELECT * FROM anonymity WHERE id = ?";
 		List<Anonymity> result = jdbcTemplate.query(sql, new Object[] { id }, new AnonymityMapper());
@@ -122,13 +124,14 @@ public class AnonymityDaoImpl implements AnonymityDao {
 	}
 
 	public Anonymity update(Anonymity anonymity) {
-		String sql = "UPDATE anonymity SET clientDeviceId = ?, clientDeviceName = ?, clientDeviceToken=?, loginIp=?, clientOS=?, clientLang=?, productID = ?, productVersion=?, createTime=?, updateTime =?, uninstallTime = ?";
+		String sql = "UPDATE anonymity SET clientDeviceId=?, clientDeviceName=?, clientDeviceToken=?, loginIp=?, clientOS=?, clientLang=?, productID=?, productVersion=?, freeType=?, createTime=?, updateTime=?, uninstallTime=?";
 		jdbcTemplate.update(
 				sql,
 				new Object[] { anonymity.getClientDeviceId(), anonymity.getClientDeviceName(),
 						anonymity.getClientDeviceToken(), anonymity.getLoginIp(), anonymity.getClientOS(),
 						anonymity.getClientLang(), anonymity.getProductID(), anonymity.getProductVersion(),
-						anonymity.getCreateTime(), Calendar.getInstance(), anonymity.getUninstallTime() });
+						anonymity.getFreeType(), anonymity.getCreateTime(), Calendar.getInstance(),
+						anonymity.getUninstallTime() });
 
 		return anonymity;
 	}
