@@ -15,14 +15,16 @@ public class Product implements Serializable {
 	private String productName;
 
 	private BooleanType appIsnew;
-
+	
+	private String appIcon;
+	
+	private String downloadURL;
+	
 	private String appStoreId;
 
 	private String schema;
 
 	private String productPrice;
-
-	private String description;
 	
 	private BooleanType status;
 
@@ -58,6 +60,22 @@ public class Product implements Serializable {
 		this.appIsnew = appIsnew;
 	}
 
+	public String getDownloadURL() {
+		return downloadURL;
+	}
+
+	public void setDownloadURL(String downloadURL) {
+		this.downloadURL = downloadURL;
+	}
+
+	public String getAppIcon() {
+		return appIcon;
+	}
+
+	public void setAppIcon(String appIcon) {
+		this.appIcon = appIcon;
+	}
+
 	public String getAppStoreId() {
 		return appStoreId;
 	}
@@ -80,14 +98,6 @@ public class Product implements Serializable {
 
 	public void setProductPrice(String productPrice) {
 		this.productPrice = productPrice;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public BooleanType getStatus() {

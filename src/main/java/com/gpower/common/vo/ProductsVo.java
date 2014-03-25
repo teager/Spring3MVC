@@ -3,6 +3,7 @@ package com.gpower.common.vo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -22,9 +23,9 @@ public class ProductsVo implements Serializable {
 
 	}
 
-	public ProductsVo(List<Product> products, Anonymity anonymity) {
+	public ProductsVo(List<Product> products, Anonymity anonymity, Map<String, String> descriptions) {
 		for (Product product : products) {
-			this.addProduct(new ProductVo(product, anonymity));
+			this.addProduct(new ProductVo(product, anonymity, descriptions));
 		}
 		this.count = new Long(products.size());
 	}

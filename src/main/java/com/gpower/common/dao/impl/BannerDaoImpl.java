@@ -19,7 +19,7 @@ public class BannerDaoImpl implements BannerDao {
 
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String INSERT_BANNER = "INSERT INTO banner(productId, appStoreId, imageUrl, bannerType, status) VALUES(?,?,?,?,?)";
+	private static final String INSERT_BANNER = "INSERT INTO banner(productId, appStoreId, imageUrl, downloadURL, bannerType, status) VALUES(?,?,?,?,?,?)";
 	private static final String UPDATE_BANNER = "UPDATE banner SET status=? WHERE id=?";
 
 	private static final Logger logger = LoggerFactory.getLogger(BannerDaoImpl.class);
@@ -31,6 +31,7 @@ public class BannerDaoImpl implements BannerDao {
 			banner.setProductId(rs.getString("productId"));
 			banner.setAppStoreId(rs.getString("appStoreId"));
 			banner.setImageUrl(rs.getString("imageUrl"));
+			banner.setDownloadURL(rs.getString("downloadURL"));
 			banner.setBannerType(BannerType.fromInt(rs.getInt("bannerType")));
 			banner.setStatus(BooleanType.fromInt(rs.getInt("status")));
 			return banner;
@@ -42,7 +43,7 @@ public class BannerDaoImpl implements BannerDao {
 		jdbcTemplate.update(
 				INSERT_BANNER,
 				new Object[] { banner.getProductId(), banner.getAppStoreId(), banner.getImageUrl(),
-						banner.getImageUrl(), banner.getBannerType(), banner.getStatus() });
+						banner.getDownloadURL(), banner.getBannerType(), banner.getStatus() });
 		return banner;
 	}
 

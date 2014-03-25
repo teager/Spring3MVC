@@ -134,7 +134,7 @@ public class AnonymityDto extends TransferObject<Anonymity> {
 			anonymity.setClientLang(clientLang);
 		}
 		if (productID != null) {
-			anonymity.setProductVersion(productID);
+			anonymity.setProductID(productID);
 		}
 		if (productVersion != null) {
 			anonymity.setProductVersion(productVersion);

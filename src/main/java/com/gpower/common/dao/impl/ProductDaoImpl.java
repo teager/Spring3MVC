@@ -18,7 +18,7 @@ public class ProductDaoImpl implements ProductDao {
 
 	private JdbcTemplate jdbcTemplate;
 
-	private static final String INSERT_PRODUCT = "INSERT INTO product(productId, productName, appIsnew, appStoreId, schema, description, productPrice, status) VALUES(?,?,?,?,?,?,?,?)";
+	private static final String INSERT_PRODUCT = "INSERT INTO product(productId, productName, appIsnew, appStoreId, appIcon, downloadURL, schema, productPrice, status) VALUES(?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_PRODUCT = "UPDATE product SET status=? WHERE id=?";
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductDaoImpl.class);
@@ -31,8 +31,9 @@ public class ProductDaoImpl implements ProductDao {
 			product.setProductName(rs.getString("productName"));
 			product.setAppIsnew(BooleanType.fromInt(rs.getInt("appIsnew")));
 			product.setAppStoreId(rs.getString("appStoreId"));
+			product.setAppIcon(rs.getString("appIcon"));
+			product.setDownloadURL(rs.getString("downloadURL"));
 			product.setSchema(rs.getString("schema"));
-			product.setDescription(rs.getString("description"));
 			product.setProductPrice(rs.getString("productPrice"));
 			product.setStatus(BooleanType.fromInt(rs.getInt("status")));
 			return product;
@@ -44,7 +45,7 @@ public class ProductDaoImpl implements ProductDao {
 		jdbcTemplate.update(
 				INSERT_PRODUCT,
 				new Object[] { product.getProductId(), product.getProductName(), product.getAppIsnew(),
-						product.getAppStoreId(), product.getSchema(), product.getDescription(),
+						product.getAppStoreId(), product.getAppIcon(), product.getDownloadURL(), product.getSchema(),
 						product.getProductPrice(), product.getStatus() });
 		return product;
 	}

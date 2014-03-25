@@ -12,6 +12,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.gpower.common.dto.AnonymityDto;
 import com.gpower.common.entity.Anonymity;
 import com.gpower.common.type.BooleanType;
+import com.gpower.common.type.FreeType;
 import com.gpower.common.type.UpdateType;
 import com.gpower.common.utils.SessionUtils;
 
@@ -24,7 +25,7 @@ public class SessionVo implements Serializable{
 
 	private BooleanType fullScreenAd = BooleanType.FALSE;
 
-	private BooleanType duringFree = BooleanType.FALSE;
+	private FreeType freeType = FreeType.EVER;
 
 	private BooleanType bannerUpdate = BooleanType.FALSE;
 
@@ -43,10 +44,7 @@ public class SessionVo implements Serializable{
 		if (propValue != null && propValue.equals("true")) {
 			this.fullScreenAd = BooleanType.TRUE;
 		}
-		propValue = properties.get(anonymity.getProductID() + ".duringFree");
-		if (propValue != null && propValue.equals("true")) {
-			this.duringFree = BooleanType.TRUE;
-		}
+		this.freeType = anonymity.getFreeType();
 
 		this.session = SessionUtils.createAnonymitySessionToken(anonymity);
 
@@ -117,12 +115,12 @@ public class SessionVo implements Serializable{
 		this.fullScreenAd = fullScreenAd;
 	}
 
-	public BooleanType getDuringFree() {
-		return duringFree;
+	public FreeType getFreeType() {
+		return freeType;
 	}
 
-	public void setDuringFree(BooleanType duringFree) {
-		this.duringFree = duringFree;
+	public void setFreeType(FreeType freeType) {
+		this.freeType = freeType;
 	}
 
 	public BooleanType getBannerUpdate() {

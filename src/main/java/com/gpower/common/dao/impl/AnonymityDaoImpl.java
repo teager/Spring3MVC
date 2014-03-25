@@ -1,13 +1,19 @@
 package com.gpower.common.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import com.gpower.common.dao.AnonymityDao;
 import com.gpower.common.dao.page.Page;
@@ -56,17 +62,38 @@ public class AnonymityDaoImpl implements AnonymityDao {
 		}
 	}
 
-	public Anonymity save(Anonymity anonymity) {
+	public Anonymity save(final Anonymity anonymity) {
 
-		String sql = "INSERT INTO anonymity "
+		final String sql = "INSERT INTO anonymity "
 				+ "(clientDeviceId, clientDeviceName, clientDeviceToken, loginIp, clientOS, clientLang, productID, productVersion, freeType, createTime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		jdbcTemplate.update(
-				sql,
-				new Object[] { anonymity.getClientDeviceId(), anonymity.getClientDeviceName(),
-						anonymity.getClientDeviceToken(), anonymity.getLoginIp(), anonymity.getClientOS(),
-						anonymity.getClientLang(), anonymity.getProductID(), anonymity.getProductVersion(),
-						Calendar.getInstance() });
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(new PreparedStatementCreator(){
+			 @Override
+	            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+	                PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+	                int index = 1;
+	                ps.setString(index, anonymity.getClientDeviceId());
+	                ps.setString(++index, anonymity.getClientDeviceName());
+	                ps.setString(++index, anonymity.getClientDeviceToken());
+	                ps.setString(++index, anonymity.getLoginIp());
+	                ps.setString(++index, anonymity.getClientOS());
+	                ps.setString(++index, anonymity.getClientLang());
+	                ps.setString(++index, anonymity.getProductID());
+	                ps.setString(++index, anonymity.getProductVersion());
+	                ps.setInt(++index, anonymity.getFreeType().ordinal());
+	                ps.setTimestamp(++index, new Timestamp(Calendar.getInstance().getTimeInMillis()));
+	                return ps;
+	            }
+		}, keyHolder);
+		
+//		jdbcTemplate.update(
+//				sql,
+//				new Object[] { anonymity.getClientDeviceId(), anonymity.getClientDeviceName(),
+//						anonymity.getClientDeviceToken(), anonymity.getLoginIp(), anonymity.getClientOS(),
+//						anonymity.getClientLang(), anonymity.getProductID(), anonymity.getProductVersion(), anonymity.getFreeType().ordinal(),
+//						Calendar.getInstance()}, keyHolder);
+		anonymity.setId(keyHolder.getKey().longValue());
 		return anonymity;
 	}
 
@@ -130,7 +157,7 @@ public class AnonymityDaoImpl implements AnonymityDao {
 				new Object[] { anonymity.getClientDeviceId(), anonymity.getClientDeviceName(),
 						anonymity.getClientDeviceToken(), anonymity.getLoginIp(), anonymity.getClientOS(),
 						anonymity.getClientLang(), anonymity.getProductID(), anonymity.getProductVersion(),
-						anonymity.getFreeType(), anonymity.getCreateTime(), Calendar.getInstance(),
+						anonymity.getFreeType().ordinal(), anonymity.getCreateTime(), Calendar.getInstance(),
 						anonymity.getUninstallTime() });
 
 		return anonymity;

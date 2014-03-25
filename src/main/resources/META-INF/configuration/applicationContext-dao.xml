@@ -32,6 +32,10 @@
 	<bean id="productDao" class="com.gpower.common.dao.impl.ProductDaoImpl">
 		<property name="jdbcTemplate" ref="jdbcTemplate" />
 	</bean>
+	
+	<bean id="productDescriptionDao" class="com.gpower.common.dao.impl.ProductDescriptionDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
 
 	<!-- <bean id="jdbcEmployeeDAO" class="com.javacodegeeks.snippets.enterprise.dao.impl.JDBCEmployeeDAOImpl"> 
 		<property name="dataSource" ref="dataSource" /> </bean> <bean id="dataSource" 

@@ -16,6 +16,8 @@ public class Banner implements Serializable {
 	private String appStoreId;
 
 	private String imageUrl;
+	
+	private String downloadURL;
 
 	private BannerType bannerType;
 	
@@ -51,6 +53,14 @@ public class Banner implements Serializable {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public String getDownloadURL() {
+		return downloadURL;
+	}
+
+	public void setDownloadURL(String downloadURL) {
+		this.downloadURL = downloadURL;
 	}
 
 	public BannerType getBannerType() {

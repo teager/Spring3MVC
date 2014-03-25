@@ -1,6 +1,7 @@
 package com.gpower.common.api;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ import com.gpower.common.api.exceptions.NotFoundException;
 import com.gpower.common.dao.AnonymityDao;
 import com.gpower.common.dao.BannerDao;
 import com.gpower.common.dao.ProductDao;
-import com.gpower.common.dao.PropertyDao;
+import com.gpower.common.dao.ProductDescriptionDao;
 import com.gpower.common.dao.page.Page;
 import com.gpower.common.entity.Anonymity;
 import com.gpower.common.entity.Banner;
@@ -35,7 +36,7 @@ public class SystemApi {
 	private AnonymityDao anonymityDao;
 
 	@Autowired
-	private PropertyDao gpPropertyDao;
+	private ProductDescriptionDao productDescriptionDao;
 
 	@Autowired
 	private BannerDao bannerDao;
@@ -55,7 +56,8 @@ public class SystemApi {
 			throw new NotFoundException("anonymity is null", "null");
 		}
 		List<Product> products = productDao.getProduct(new Page<Product>());
-		return new ProductsVo(products, anonymity);
+		Map<String, String> descriptions = productDescriptionDao.getProductDescription();
+		return new ProductsVo(products, anonymity, descriptions);
 
 	}
 
