@@ -15,13 +15,11 @@ public class BannersVo implements Serializable {
 
 	private static final long serialVersionUID = 1444741726787055989L;
 
-	private Long count;
-
-	private String fsProductId;
-
-	private String fsAppStoreId;
-
-	private String fsImageUrl;
+	private Long bannerCount;
+	
+	private Long fsBannerCount;
+	
+	private List<BannerVo> fsBanners;
 
 	private List<BannerVo> banners;
 
@@ -31,19 +29,27 @@ public class BannersVo implements Serializable {
 
 	public BannersVo(List<Banner> banners, Anonymity anonymity) {
 		Long bannerCount = 0L;
+		Long fsBannerCount = 0L;
 		for (Banner banner : banners) {
 			if (BannerType.FULLSCREEN.equals(banner.getBannerType())) {
-				this.fsProductId = banner.getProductId();
-				this.fsAppStoreId = banner.getAppStoreId();
-				this.fsImageUrl = banner.getImageUrl();
+				this.addFSBanner(new BannerVo(banner, anonymity));
+				fsBannerCount++;
 			} else {
 				this.addBanner(new BannerVo(banner, anonymity));
 				bannerCount++;
 			}
 		}
-		this.setCount(bannerCount);
+		this.bannerCount = bannerCount;
+		this.fsBannerCount = fsBannerCount;
 	}
 
+	private void addFSBanner(BannerVo bannerVo) {
+		if (this.fsBanners == null) {
+			this.fsBanners = new ArrayList<BannerVo>();
+		}
+		this.fsBanners.add(bannerVo);
+	}
+	
 	private void addBanner(BannerVo bannerVo) {
 		if (this.banners == null) {
 			this.banners = new ArrayList<BannerVo>();
@@ -51,36 +57,28 @@ public class BannersVo implements Serializable {
 		this.banners.add(bannerVo);
 	}
 
-	public Long getCount() {
-		return count;
+	public Long getBannerCount() {
+		return bannerCount;
 	}
 
-	public void setCount(Long count) {
-		this.count = count;
+	public void setBannerCount(Long bannerCount) {
+		this.bannerCount = bannerCount;
 	}
 
-	public String getFsProductId() {
-		return fsProductId;
+	public Long getFsBannerCount() {
+		return fsBannerCount;
 	}
 
-	public void setFsProductId(String fsProductId) {
-		this.fsProductId = fsProductId;
+	public void setFsBannerCount(Long fsBannerCount) {
+		this.fsBannerCount = fsBannerCount;
 	}
 
-	public String getFsAppStoreId() {
-		return fsAppStoreId;
+	public List<BannerVo> getFsBanners() {
+		return fsBanners;
 	}
 
-	public void setFsAppStoreId(String fsAppStoreId) {
-		this.fsAppStoreId = fsAppStoreId;
-	}
-
-	public String getFsImageUrl() {
-		return fsImageUrl;
-	}
-
-	public void setFsImageUrl(String fsImageUrl) {
-		this.fsImageUrl = fsImageUrl;
+	public void setFsBanners(List<BannerVo> fsBanners) {
+		this.fsBanners = fsBanners;
 	}
 
 	public List<BannerVo> getBanners() {
