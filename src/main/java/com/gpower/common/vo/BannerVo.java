@@ -14,8 +14,6 @@ public class BannerVo implements Serializable{
 	private String appStoreId;
 
 	private String imageUrl;
-	
-	private String downloadURL;
 
 	public BannerVo() {
 		super();
@@ -25,7 +23,7 @@ public class BannerVo implements Serializable{
 		this.productId = banner.getProductId();
 		this.appStoreId = banner.getAppStoreId();
 		this.imageUrl = banner.getImageUrl();
-		this.downloadURL = banner.getDownloadURL();
+
 	}
 
 	public String getProductId() {
@@ -50,14 +48,6 @@ public class BannerVo implements Serializable{
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
-	}
-
-	public String getDownloadURL() {
-		return downloadURL;
-	}
-
-	public void setDownloadURL(String downloadURL) {
-		this.downloadURL = downloadURL;
 	}
 
 }
